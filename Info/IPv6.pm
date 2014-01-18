@@ -313,15 +313,20 @@ sub ipv6_addr_prefix {
     foreach my $row (keys %$ipv6_addr_prefix){
         if ($row =~ /^(\d+)\.[\d\.]+$/) {
             my $type = $1;
-            if ($type == 2) { # IPv6
-		# Remove the OID part from the value
-		my $val = $ipv6_addr_prefix->{$row};
-		if ( $val =~ /^.+?((?:\d+\.){19}\d+)$/ ){
-		    $val = $1;
-		    $return->{$row} = $val;
-		}
-	    }
-	}
+            my $rownew;
+            if ( ($type == 2) || ($type == 4)) { # IPv6
+                #remove interface specific part from vrf interfaces
+                if ($row =~ /^((\d+\.){17}\d+)/) {
+                        $rownew=$1;
+                }
+                # Remove the OID part from the value
+                my $val = $ipv6_addr_prefix->{$row};
+                if ( $val =~ /^.+?((?:\d+\.){19}\d+)$/ ){
+                    $val = $1;
+                    $return->{$rownew} = $val;
+                }
+            }
+        }
     }
     printf("%s: data comes from %s.\n", &_my_sub_name, $info->_method_used() ) if $info->debug();
     return $return;
