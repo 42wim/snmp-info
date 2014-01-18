@@ -61,7 +61,7 @@ $VERSION = '3.33';
 
 %GLOBALS = (
 	%SNMP::Info::Layer3::CiscoSwitch::GLOBALS,
-	'mac' => 'dot1dBaseBridgeAddress',
+    'mac' => 'ifPhysAddress.83886080',
 );
 
 %FUNCS = ( %SNMP::Info::Layer3::CiscoSwitch::FUNCS, );
